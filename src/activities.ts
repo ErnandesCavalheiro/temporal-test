@@ -2,7 +2,7 @@ import useGetComment from "./hooks/useGetComment";
 import Comment from "./interfaces/Comment";
 import OpenAIService from "./services/OpenAIService";
 import CreateOrUpdateCSV from "./utils/createOrUpdateCSV";
-import AnalyzeCSV from "./utils/AnalyzeCSV";
+import AnalyzeCSV from "./utils/analyzeCSV";
 
 export async function getComment(id: number, quantity: number): Promise<Comment | Comment[]> {
   const comment = await useGetComment(id, quantity);
@@ -18,7 +18,7 @@ export async function analyzeComment(comment: Comment | Comment[]): Promise<Comm
   for (const commentItem of commentsArray) {
     const res = await openai.analyzeComment(commentItem.body);
 
-    commentItem.sentiment = res[0].text;
+    commentItem.sentiment = res[0].text.replace(/\n/g, '');
     commentItem.userId = commentItem.user.id;
   }
 

@@ -30,14 +30,17 @@ function analyzeSentiments(data: any[]) {
     let neutralCount = 0;
 
     for (const item of data) {
-        const sentiment = item.Sentiment.toLowerCase();
+        // Verifica se a propriedade Sentiment existe e não é nula
+        if (item.Sentiment) {
+            const sentiment = item.Sentiment.toLowerCase();
 
-        if (sentiment.includes('positive')) {
-            positiveCount++;
-        } else if (sentiment.includes('negative')) {
-            negativeCount++;
-        } else {
-            neutralCount++;
+            if (sentiment.includes('positive')) {
+                positiveCount++;
+            } else if (sentiment.includes('negative')) {
+                negativeCount++;
+            } else {
+                neutralCount++;
+            }
         }
     }
 
@@ -54,6 +57,7 @@ function analyzeSentiments(data: any[]) {
         neutralPercentage
     };
 }
+
 
 function parseAndAnalyzeCSV(filePath: string): Object {
     const data = parseCSV(filePath);
