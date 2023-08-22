@@ -1,13 +1,8 @@
 import axios from "axios";
 import Comment from "../interfaces/Comment";
 
-const useGetComment = async (commentId: number, quantity: number): Promise<Comment | Comment[]> => {
-    try {
-        if (commentId === 0 && quantity > 1) {
-            const res = await axios.get(`https://dummyjson.com/comments?limit=${quantity}`)
-            return res.data.comments
-        }
-
+const useGetComment = async (commentId: number): Promise<Comment | Comment[]> => {
+    try{
         const res = await axios.get(`https://dummyjson.com/comments/${commentId}`);
         return res.data;
     } catch (error) {
