@@ -1,18 +1,8 @@
-# Hello World
-
-This is the default project that is scaffolded out when you run `npx @temporalio/create@latest ./myfolder`.
-
-The [Hello World Tutorial](https://learn.temporal.io/getting_started/typescript/hello_world_in_typescript/) walks through the code in this sample.
-
 ### Running this sample
 
-1. `temporal server start-dev` to start [Temporal Server](https://github.com/temporalio/cli/#installation).
 1. `npm install` to install dependencies.
-1. `npm run start.watch` to start the Worker.
-1. In another shell, `npm run workflow` to run the Workflow Client.
+1. `npm run start.watch` to initiate the Worker.
+1. `npm run server` to launch the [Server](https://localhost:3000).
+1. access (https://localhost:3000/create/:qnt) to create the CSV file (:qnt to creates multiple comments; without :qnt, it creates a single comment).
 
-The Workflow should return:
-
-```bash
-Hello, Temporal!
-```
+The Workflow should return JSON containing the quantity of comments and the percentages of positive, neutral, and negative sentiments
