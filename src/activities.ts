@@ -3,6 +3,9 @@ import Comment from "./interfaces/Comment";
 import OpenAIService from "./services/OpenAIService";
 import CreateOrUpdateCSV from "./utils/createOrUpdateCSV";
 import AnalyzeCSV from "./utils/analyzeCSV";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export async function getComment(id: number, quantity: number): Promise<Comment | Comment[]> {
   const comment = await useGetComment(id, quantity);
