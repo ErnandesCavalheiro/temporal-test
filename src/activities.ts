@@ -7,9 +7,22 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export async function getComment(id: number, quantity: number): Promise<Comment | Comment[]> {
-  const comment = await useGetComment(id, quantity);
+function wait(seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000); // Multiplica por 1000 para converter segundos em milissegundos
+  });
+}
 
+export async function getComment(id: number): Promise<Comment | Comment[]> {
+  console.log(id);
+
+  const randomNumber = Math.floor(Math.random() * 25) + 1;
+
+  await wait(randomNumber);
+
+  const comment = await useGetComment(id);
+
+  console.log(id);
   return comment;
 }
 
@@ -18,6 +31,12 @@ export async function analyzeComment(comment: Comment | Comment[]): Promise<Comm
 
   const commentsArray = Array.isArray(comment) ? comment : [comment];
 
+  console.log(commentsArray[0].id);
+
+  const randomNumber = Math.floor(Math.random() * 25) + 1;
+
+  await wait(randomNumber);
+
   for (const commentItem of commentsArray) {
     const res = await openai.analyzeComment(commentItem.body);
 
@@ -25,6 +44,7 @@ export async function analyzeComment(comment: Comment | Comment[]): Promise<Comm
     commentItem.userId = commentItem.user.id;
   }
 
+  console.log(commentsArray[0].id);
   return commentsArray;
 }
 
