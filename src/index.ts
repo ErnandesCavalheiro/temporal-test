@@ -4,10 +4,16 @@ import { Connection, Client } from '@temporalio/client';
 import { AnalyzeCSV, GetAndAnalyzeComment } from './workflows';
 import { nanoid } from 'nanoid';
 
+
 const app = express();
 const PORT = 3000;
 
+app.get('/', (req, res) => {
+    res.send("Hello World");
+})
+
 app.get('/create/:qnt', async (req, res) => {
+    let times = 0;
     const quantity = req.params.qnt;
 
     const connection = await Connection.connect({ address: 'localhost:7233' });
@@ -16,17 +22,20 @@ app.get('/create/:qnt', async (req, res) => {
         connection,
     });
 
-    const handle = await client.workflow.start(GetAndAnalyzeComment, {
-        taskQueue: 'comment-analysis',
-        args: [0, quantity],
-        workflowId: 'workflow-' + nanoid(),
-    });
+    while (times < quantity) {
+        const randomNumber = Math.floor(Math.random() * 50) + 1;
 
-    console.log(`Started workflow ${handle.workflowId}`);
+        const handle = await client.workflow.start(GetAndAnalyzeComment, {
+            taskQueue: 'comment',
+            args: [randomNumber, 1],
+            workflowId: 'workflow-' + nanoid(),
+        });
 
-    console.log(await handle.result());
+        times++;
+        console.log(`Started workflow ${handle.workflowId}`);
+    }
 
-    res.send(`Created ${quantity} comments`);
+    res.send(`Creating ${quantity} comments...`);
 });
 
 app.get('/create', async (req, res) => {
@@ -39,7 +48,7 @@ app.get('/create', async (req, res) => {
     });
 
     const handle = await client.workflow.start(GetAndAnalyzeComment, {
-        taskQueue: 'comment-analysis',
+        taskQueue: 'comment',
         args: [randomNumber, 1],
         workflowId: 'workflow-' + nanoid(),
     });
@@ -59,7 +68,7 @@ app.get('/analyze', async (req, res) => {
     });
 
     const handle = await client.workflow.start(AnalyzeCSV, {
-        taskQueue: 'comment-analysis',
+        taskQueue: 'comment',
         args: ['./output/csv/analysis.csv'],
         workflowId: 'workflow-' + nanoid(),
     });
