@@ -1,5 +1,7 @@
 import * as csvWriter from "csv-writer";
 import fs from "fs";
+import path from "path"; // Importe o módulo path para lidar com caminhos
+
 import Comment from "../interfaces/Comment";
 
 async function CreateOrUpdateCSV(data: Comment | Comment[]) {
@@ -11,7 +13,13 @@ async function CreateOrUpdateCSV(data: Comment | Comment[]) {
         { id: 'sentiment', title: 'Sentiment' }
     ];
 
-    const csvPath = './output/csv/analysis.csv';
+    // Verificar e criar a pasta output/csv/ se ela não existir
+    const csvFolderPath = './output/csv/';
+    if (!fs.existsSync(csvFolderPath)) {
+        fs.mkdirSync(csvFolderPath, { recursive: true });
+    }
+
+    const csvPath = path.join(csvFolderPath, 'analysis.csv');
     const csvFileExists = fs.existsSync(csvPath);
 
     const csv = csvWriter.createObjectCsvWriter({
