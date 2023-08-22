@@ -9,7 +9,7 @@ dotenv.config();
 
 function wait(seconds: number): Promise<void> {
   return new Promise((resolve) => {
-    setTimeout(resolve, seconds * 1000); // Multiplica por 1000 para converter segundos em milissegundos
+    setTimeout(resolve, seconds * 1000);
   });
 }
 
