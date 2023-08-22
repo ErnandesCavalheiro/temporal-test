@@ -27,7 +27,7 @@ app.get('/create/:qnt', async (req, res) => {
 
         const handle = await client.workflow.start(GetAndAnalyzeComment, {
             taskQueue: 'comment',
-            args: [randomNumber, 1],
+            args: [randomNumber],
             workflowId: 'workflow-' + nanoid(),
         });
 
@@ -49,7 +49,7 @@ app.get('/create', async (req, res) => {
 
     const handle = await client.workflow.start(GetAndAnalyzeComment, {
         taskQueue: 'comment',
-        args: [randomNumber, 1],
+        args: [randomNumber],
         workflowId: 'workflow-' + nanoid(),
     });
 
