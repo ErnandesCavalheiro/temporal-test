@@ -17,7 +17,7 @@ async function CreateOrUpdateCSV(data: Comment | Comment[]) {
     const csv = csvWriter.createObjectCsvWriter({
         path: csvPath,
         header: headers,
-        append: csvFileExists // Usamos a flag "append" com base na existência do arquivo
+        append: csvFileExists
     });
 
     const dataArray = Array.isArray(data) ? data : [data];
