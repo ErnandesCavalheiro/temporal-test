@@ -6,8 +6,8 @@ const { getComment, analyzeComment, createOrUpdateCSV, parseAndAnalyzeCSV } = wo
   startToCloseTimeout: '1 minute',
 });
 
-export async function GetAndAnalyzeComment(id: number, quantity: number): Promise<Boolean> {
-  let comment = await getComment(id, quantity);
+export async function GetAndAnalyzeComment(id: number): Promise<Boolean> {
+  let comment = await getComment(id);
 
   comment = await analyzeComment(comment);
 
