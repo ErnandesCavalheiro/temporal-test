@@ -13,7 +13,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/create/:qnt', async (req, res) => {
-    let times = 0;
     const quantity = req.params.qnt;
 
     const connection = await Connection.connect({ address: 'localhost:7233' });
@@ -22,16 +21,15 @@ app.get('/create/:qnt', async (req, res) => {
         connection,
     });
 
-    while (times < quantity) {
+    for (let i = 0; i < quantity; i++) {
         const randomNumber = Math.floor(Math.random() * 50) + 1;
 
         const handle = await client.workflow.start(GetAndAnalyzeComment, {
-            taskQueue: 'comment',
+            taskQueue: 'sentiments',
             args: [randomNumber],
             workflowId: 'workflow-' + nanoid(),
         });
 
-        times++;
         console.log(`Started workflow ${handle.workflowId}`);
     }
 
