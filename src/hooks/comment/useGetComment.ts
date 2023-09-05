@@ -1,7 +1,7 @@
 import axios from "axios";
-import Comment from "../interfaces/Comment";
+import { Comment, CommentArray } from "../../interfaces/Comment";
 
-const useGetComment = async (commentId: number): Promise<Comment | Comment[]> => {
+const useGetComment = async (commentId: number): Promise<Comment> => {
     try{
         const res = await axios.get(`https://dummyjson.com/comments/${commentId}`);
         return res.data;
@@ -9,5 +9,7 @@ const useGetComment = async (commentId: number): Promise<Comment | Comment[]> =>
         throw new Error("Error fetching comment");
     }
 }
+
+
 
 export default useGetComment;

@@ -1,15 +1,18 @@
-interface User {
-    id: number;
-    username: string;
-}
-  
+import User from "./User";
+
 interface Comment {
     id: number;
     body: string;
     postId: number;
     user: User;
-    userId: number | undefined;
-    sentiment: string | undefined;
+    userId?: number | string;
+    username?: string
+    sentiment?: string;
 }
 
-export default Comment;
+interface CommentArray {
+    comments: Comment[]
+}
+
+
+export {Comment, CommentArray};
