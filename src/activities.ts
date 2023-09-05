@@ -7,7 +7,7 @@ import useAnalyzeComment from "./hooks/useAnalyzeComment";
 import dotenv from "dotenv";
 import User from "./interfaces/User";
 import useGetAllUsers from "./hooks/useGetAllUsers";
-import useGetPostsByUser from "./hooks/useGetPostByUser";
+import useGetPostsByUser from "./hooks/useGetPostsByUser";
 import useGetCommentsByPost from "./hooks/comment/useGetCommentsByPost";
 import Post from "./interfaces/Post";
 import fs from "fs";
