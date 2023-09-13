@@ -2,12 +2,21 @@ import * as workflow from '@temporalio/workflow';
 import { executeChild, ParentClosePolicy } from '@temporalio/workflow';
 import type * as activities from './activities';
 import { Comment } from './interfaces/Comment';
-const act = workflow.proxyActivities<typeof activities>({
+const { getCommentsByPost } = workflow.proxyActivities<typeof activities>({
   startToCloseTimeout: '2 minute',
   retry: {
     initialInterval: '30s',
     backoffCoefficient: 2,
     maximumAttempts: 100,
+    nonRetryableErrorTypes: [],
+  },
+});
+const act = workflow.proxyActivities<typeof activities>({
+  startToCloseTimeout: '2 minute',
+  retry: {
+    initialInterval: '5s',
+    backoffCoefficient: 2,
+    maximumAttempts: 2,
     nonRetryableErrorTypes: [],
   },
 });
@@ -74,7 +83,7 @@ export async function analyzeCSV(filePath: string): Promise<any> {
 }
 
 export async function fetchUsers(): Promise<any> {
-  act.verifyDir('./output/csv/posts/');
+  act.verifyAndCreateDir('./output/csv/posts/');
 
   const users = await act.getAllUsers();
 
@@ -119,9 +128,10 @@ export async function fetchPostsByUser(userId: number): Promise<any> {
 }
 
 export async function fetchCommentsAndAnalyzeByPost(postId: number) {
-  const comments = await act.getCommentsByPost(postId);
+  const comments = await getCommentsByPost(postId);
+  const postHasComments = postId && comments && comments.length > 0;
 
-  if (postId && comments && comments.length > 0) {
+  if (postHasComments) {
     const promises: Promise<any>[] = [];
 
     comments.forEach((comment: Comment) => {

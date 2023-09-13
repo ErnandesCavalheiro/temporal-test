@@ -2,7 +2,7 @@ import useGetComment from "./hooks/comment/useGetComment";
 import {Comment, CommentArray} from "./interfaces/Comment";
 import OpenAIService from "./services/OpenAIService";
 import CreateOrUpdateCSV from "./utils/createOrUpdateCSV";
-import { parseAndAnalyzeCSV, parseAndAnalyzeCSVGrouped } from "./utils/AnalyzeCSV"
+import { parseAndAnalyzeCSV, parseAndAnalyzeCSVGrouped } from "./utils/analyzeCSV"
 import useAnalyzeComment from "./hooks/useAnalyzeComment";
 import dotenv from "dotenv";
 import User from "./interfaces/User";
@@ -112,7 +112,7 @@ export async function getAndAnalyzeUserComments(userId: number): Promise<any> {
   return { userComments, avgCommentsSentiment };
 }
 
-export async function verifyDir(folder: string) {
+export async function verifyAndCreateDir(folder: string) {
     if (!fs.existsSync(folder)) {
         fs.mkdirSync(folder, { recursive: true });
     }
